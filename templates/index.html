@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8"> <!--  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulario de tareas">
+    <title>CRUD - TAREAS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <header class="bg-indigo-800 text-white py-6 shadow-lg">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <a href="/">
+                <img src="{{ url_for('static',  filename='uploads/logo.png') }}" alt="Logo" class="h-12 mb-4 md:mb-0">
+            </a>
+            <nav>
+                <ul class="flex gap-6 text-sm md:text-base">
+                    <li><a href="/" class="hover:underline">INICIO</a></li>
+                    <li><a href="/reportar" class="hover:underline">Reportar Mascota</a></li>
+                    <li><a href="" class="hover:underline">MIS TAREAS</a></li>
+                    <li><a href="" class="hover:underline">AYUDA</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    {% for mascota in mascotas %}
+        <div class="bg-white p-4 rounded shadow">
+            <!-- Foto -->
+            {% if mascota[5] %}
+                <img src="{{ url_for('static', filename='uploads/' ~ mascota[5]) }}" 
+                     alt="Foto de {{ mascota[1] }}" 
+                     class="w-full h-48 object-cover rounded mb-3">
+            {% else %}
+                <img src="{{ url_for('static', filename='uploads/default.jpg') }}" 
+                     alt="Sin imagen" 
+                     class="w-full h-48 object-cover rounded mb-3">
+            {% endif %}
+
+            <!-- Nombre -->
+            <h2 class="text-xl font-bold mb-2">{{ mascota[1] }}</h2>
+
+            <!-- Descripción -->
+            <p class="text-gray-700">{{ mascota[2] }}</p>
+
+            <!-- Ubicación -->
+            <p class="text-sm text-gray-500 mt-2">
+                📍 {{ mascota[3] }}
+            </p>
+
+            <!-- Contacto -->
+            <p class="text-sm text-gray-500">
+                📞 {{ mascota[4] }}
+            </p>
+            <!-- Aquí va el formulario para marcar encontrada -->
+        <form action="{{ url_for('encontrada', id=mascota[0]) }}" method="post" onsubmit="return confirm('¿Seguro que la mascota fue encontrada?')">
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-3 hover:bg-green-600">
+                ✅ Mascota encontrada
+            </button>
+        </form>
+            
+        </div>
+    {% endfor %}
+</div>
+
+    </header>
+
+        {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="max-w-6xl mx-auto mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded" role="alert">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+<h1 class="text-2xl font-bold mb-4">Panel de Administración</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<table class="w-full border-collapse bg-white shadow">
+    <thead>
+        <tr class="bg-gray-200">
+            <th class="border p-2">Nombre</th>
+            <th class="border p-2">Descripción</th>
+            <th class="border p-2">Ubicación</th>
+            <th class="border p-2">Contacto</th>
+            <th class="border p-2">Foto</th>
+            <th class="border p-2">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mascota in pendientes %}
+        <tr>
+            <td class="border p-2">{{ mascota[1] }}</td>
+            <td class="border p-2">{{ mascota[2] }}</td>
+            <td class="border p-2">{{ mascota[3] }}</td>
+            <td class="border p-2">{{ mascota[4] }}</td>
+            <td class="border p-2">
+                {% if mascota[5] %}
+                <img src="{{ url_for('static', filename='uploads/' ~ mascota[5]) }}" class="w-20">
+                {% else %}
+                Sin foto
+                {% endif %}
+            </td>
+            <td class="border p-2">
+                <a href="{{ url_for('aprobar', id=mascota[0]) }}" class="bg-green-500 text-white px-3 py-1 rounded">Aprobar</a>
+                <a href="{{ url_for('rechazar', id=mascota[0]) }}" class="bg-red-500 text-white px-3 py-1 rounded">Rechazar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

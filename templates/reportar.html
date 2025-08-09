@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Reportar mascota perdida</title>
+</head>
+
+<body class="max-w-3xl mx-auto bg-gray p-6 mt-8 rounded shadow">
+    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Reportar mascota perdida</h1>
+    <!-- action="/reportar" → esta es la ruta en Flask que procesará los datos -->
+    <!-- method="POST" → indica que enviamos datos -->
+    <!-- enctype="multipart/form-data" → necesario para enviar imágenes -->
+    <form action="/reportar" method="POST" enctype="multipart/form-data" class="space-y-4 bg-white p-4 rounded shadow">
+        <input type="text" name="nombre" placeholder="Nombre de la mascota" class="w-full p-2 border rounded" required>
+        <textarea name="descripcion" placeholder="Descripcion" class="border p-2 w-full rounded" required></textarea>
+
+        <input type="text" name="ubicacion" placeholder="Ubicación donde se perdió" class="w-full p-2 border rounded"
+            required>
+        <input type="text" name="contacto" placeholder="Telefono o Email" class="w-full p-2 border rounded" required>
+
+        <!-- Subida de foto -->
+        <input type="file" name="foto" accept="image/*" class="w-full p-2 border rounded" required>
+        <button type="submit" class="bg-blue-600 text-white px-4 p-2 rounded">Enviar reporte</button>
+    </form>
+
+</body>
+
+</html>
