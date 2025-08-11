@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+function abrirModal(src) {
+    const modal = document.getElementById('modalImagen');
+    const imgModal = document.getElementById('imgModal');
+    imgModal.src = src;
+    modal.classList.remove('hidden');
+}
+
+function cerrarModal() {
+    document.getElementById('modalImagen').classList.add('hidden');
+}
+</script>
+
 </head>
 <body class="bg-gray-100 p-6">
 
@@ -39,7 +52,7 @@
             <td class="border p-2">{{ mascota[4] }}</td>
             <td class="border p-2">
                 {% if mascota[5] %}
-                <img src="{{ url_for('static', filename='uploads/' ~ mascota[5]) }}" class="w-20">
+                <img src="{{ url_for('static', filename='uploads/' ~ mascota[5]) }}" class="w-20" curasor="pointer" onclick="abrirModal(this.src)">
                 {% else %}
                 Sin foto
                 {% endif %}
@@ -52,6 +65,10 @@
         {% endfor %}
     </tbody>
 </table>
+  <!-- Modal para imagen ampliada -->
+<div id="modalImagen" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50 cursor-pointer" onclick="cerrarModal()">
+    <img id="imgModal" class="max-w-4xl max-h-full rounded shadow-lg" src="" alt="Imagen ampliada">
+</div>
 
 </body>
 </html>

@@ -11,23 +11,39 @@
 
 <body class="bg-gray-100 text-gray-800 font-sans">
     <header class="bg-indigo-800 text-white py-6 shadow-lg">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
-            <a href="/">
-                <img src="{{ url_for('static',  filename='uploads/logo.png') }}" alt="Logo" class="h-12 mb-4 md:mb-0">
-            </a>
-            <nav>
-                <ul class="flex gap-6 text-sm md:text-base">
-                    <li><a href="/" class="hover:underline">INICIO</a></li>
-                    <li><a href="/reportar" class="hover:underline">Reportar Mascota</a></li>
-                    <li><a href="" class="hover:underline">MIS TAREAS</a></li>
-                    <li><a href="" class="hover:underline">AYUDA</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+        <a href="/">
+            <img src="{{ url_for('static',  filename='uploads/logo.png') }}" alt="Logo" class="h-12 mb-4 md:mb-0">
+        </a>
+        <nav>
+            <ul class="flex gap-6 text-sm md:text-base items-center">
+                <li><a href="/" class="hover:underline">INICIO</a></li>
+                <li><a href="/reportar" class="hover:underline">Reportar Mascota</a></li>
+                <li><a href="{{ url_for('mis_reportes') }}" class="hover:underline">Mis reportes</a></li>
+                <li><a href="#" class="hover:underline">AYUDA</a></li>
+                
+                {% if current_user.is_authenticated %}
+                    <li class="text-white">Hola, {{ current_user.username }}</li>
+                    <li>
+                        <form action="{{ url_for('logout') }}" method="post">
+                            <button type="submit" class="hover:underline text-white bg-red-600 px-3 py-1 rounded">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                    
+                {% else %}
+                    <li><a href="{{ url_for('login') }}" class="hover:underline">Login</a></li>
+                    <li><a href="{{ url_for('register') }}" class="hover:underline">Registrar</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
     {% for mascota in mascotas %}
         <div class="bg-white p-4 rounded shadow">
-            <!-- Foto -->
             {% if mascota[5] %}
                 <img src="{{ url_for('static', filename='uploads/' ~ mascota[5]) }}" 
                      alt="Foto de {{ mascota[1] }}" 
@@ -38,35 +54,15 @@
                      class="w-full h-48 object-cover rounded mb-3">
             {% endif %}
 
-            <!-- Nombre -->
             <h2 class="text-xl font-bold mb-2">{{ mascota[1] }}</h2>
-
-            <!-- Descripción -->
             <p class="text-gray-700">{{ mascota[2] }}</p>
-
-            <!-- Ubicación -->
-            <p class="text-sm text-gray-500 mt-2">
-                📍 {{ mascota[3] }}
-            </p>
-
-            <!-- Contacto -->
-            <p class="text-sm text-gray-500">
-                📞 {{ mascota[4] }}
-            </p>
-            <!-- Aquí va el formulario para marcar encontrada -->
-        <form action="{{ url_for('encontrada', id=mascota[0]) }}" method="post" onsubmit="return confirm('¿Seguro que la mascota fue encontrada?')">
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-3 hover:bg-green-600">
-                ✅ Mascota encontrada
-            </button>
-        </form>
-            
+            <p class="text-sm text-gray-500 mt-2">📍 {{ mascota[3] }}</p>
+            <p class="text-sm text-gray-500">📞 {{ mascota[4] }}</p>
         </div>
     {% endfor %}
-</div>
+</main>
 
-    </header>
-
-        {% with messages = get_flashed_messages() %}
+     <!--   {% with messages = get_flashed_messages() %}
       {% if messages %}
         <div class="max-w-6xl mx-auto mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded" role="alert">
           {% for message in messages %}
@@ -74,4 +70,4 @@
           {% endfor %}
         </div>
       {% endif %}
-    {% endwith %}
+    {% endwith %}-->

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Mis Reportes</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-6 bg-gray-100">
+
+<h1 class="text-2xl font-bold mb-4">Mis Reportes de Mascotas</h1>
+
+<table class="w-full bg-white shadow rounded">
+    <thead class="bg-gray-200">
+        <tr>
+            <th class="p-2 border">Nombre</th>
+            <th class="p-2 border">Descripción</th>
+            <th class="p-2 border">Ubicación</th>
+            <th class="p-2 border">Contacto</th>
+            <th class="p-2 border">Foto</th>
+            <th class="p-2 border">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reportes %}
+        <tr>
+            <td class="border p-2">{{ r[1] }}</td>
+            <td class="border p-2">{{ r[2] }}</td>
+            <td class="border p-2">{{ r[3] }}</td>
+            <td class="border p-2">{{ r[4] }}</td>
+            <td class="border p-2">
+                {% if r[5] %}
+                <img src="{{ url_for('static', filename='uploads/' ~ r[5]) }}" class="w-20 rounded">
+                {% else %}
+                Sin foto
+                {% endif %}
+            </td>
+            <td class="border p-2 space-x-2">
+                {% if r[8] == 0 %}
+                <form action="{{ url_for('encontrada', id=r[0]) }}" method="post" style="display:inline;">
+                    <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Marcar encontrada</button>
+                </form>
+                {% else %}
+                <span class="text-green-600 font-semibold">Encontrada</span>
+                {% endif %}
+                <a href="{{ url_for('editar_reporte', id=r[0]) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Editar</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('index') }}" class="inline-block mt-6 text-blue-600 hover:underline">Volver al inicio</a>
+
+</body>
+</html>

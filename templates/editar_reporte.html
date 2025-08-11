@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Editar Reporte</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="p-6 bg-gray-100">
+
+<h1 class="text-2xl font-bold mb-4">Editar reporte</h1>
+
+<form method="POST" action="{{ url_for('editar_reporte', id=mascota.id) }}" class="bg-white p-6 rounded shadow max-w-lg">
+    <label class="block mb-2">
+        Nombre:
+        <input type="text" name="nombre" value="{{ mascota.nombre }}" required class="border p-2 w-full rounded" />
+    </label>
+    <label class="block mb-2">
+        Descripción:
+        <textarea name="descripcion" required class="border p-2 w-full rounded">{{ mascota.descripcion }}</textarea>
+    </label>
+    <label class="block mb-2">
+        Ubicación:
+        <input type="text" name="ubicacion" value="{{ mascota.ubicacion }}" required class="border p-2 w-full rounded" />
+    </label>
+    <label class="block mb-2">
+        Contacto:
+        <input type="text" name="contacto" value="{{ mascota.contacto }}" required class="border p-2 w-full rounded" />
+    </label>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-4">Guardar cambios</button>
+</form>
+
+<a href="{{ url_for('mis_reportes') }}" class="inline-block mt-6 text-blue-600 hover:underline">Volver a mis reportes</a>
+
+</body>
+</html>
